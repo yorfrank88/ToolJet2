@@ -1,0 +1,49 @@
+services:
+  tooljet:
+    image: tooljet/tooljet:ee-lts-latest
+    container_name: tooljet-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "80:80"
+    environment:
+      SERVE_CLIENT: "true"
+      PORT: "80"
+    command: npm run start:prod
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - tooljet-network
+
+  postgres:
+    image: postgres:13
+    container_name: tooljet-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${PG_DB:-tooljet}
+      POSTGRES_USER: ${PG_USER:-tooljet}
+      POSTGRES_PASSWORD: ${PG_PASS:?}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tooljet-network
+
+  redis:
+    image: redis:7
+    container_name: tooljet-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory-policy noeviction
+    volumes:
+      - redis_data:/data
+    networks:
+      - tooljet-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  tooljet-network:
+    driver: bridge
