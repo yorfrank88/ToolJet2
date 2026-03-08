@@ -6,7 +6,7 @@ services:
     env_file:
       - .env
     ports:
-      - "8080:80"  # Cambiado de 80:80 a 8080:80
+      - "8081:80"  # Cambiado de 80:80 a 8080:80
     environment:
       SERVE_CLIENT: "true"
       PORT: "80"
