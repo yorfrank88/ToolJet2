@@ -1,20 +1,25 @@
 services:
   tooljet:
-    image: tooljet/tooljet:latest
+    image: 'tooljet/tooljet:latest'
     container_name: tooljet-app
     restart: unless-stopped
-    env_file:
-      - .env
     ports:
-      - "8081:80"  # Cambiado de 80:80 a 8080:80
+      - '80:3000'
     environment:
-      SERVE_CLIENT: "true"
-      PORT: "80"
-      SSO_AZURE_CLIENT_ID: '<Application ID de ToolJet SSO>'
-      SSO_AZURE_CLIENT_SECRET: 'VOh8Q~c_IO.oWPJeN54Rv__LbkM0FYNBbAr-xaH6'
-      SSO_AZURE_TENANT_ID: 'ed4748db-77d2-447b-abcb-e59f1ef81f2a'
+      SERVE_CLIENT: 'true'
+      TOOLJET_HOST: 'https://tools2.bforward.com.mx'
+      SECRET_KEY_BASE: '${SECRET_KEY_BASE}'
+      LOCKBOX_MASTER_KEY: '${LOCKBOX_MASTER_KEY}'
+      PG_HOST: 'postgres'
+      PG_PORT: '5432'
+      PG_DB: '${PG_DB}'
+      PG_USER: '${PG_USER}'
+      PG_PASS: '${PG_PASS}'
+      REDIS_URL: 'redis://redis:6379'
+      SSO_AZURE_CLIENT_ID: '${SSO_AZURE_CLIENT_ID}'
+      SSO_AZURE_CLIENT_SECRET: '${SSO_AZURE_CLIENT_SECRET}'
+      SSO_AZURE_TENANT_ID: '${SSO_AZURE_TENANT_ID}'
       SSO_ACCEPT_INVITED_USERS_ONLY: 'false'
-    command: npm run start:prod
     depends_on:
       - postgres
       - redis
