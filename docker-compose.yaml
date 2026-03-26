@@ -1,13 +1,13 @@
 services:
   tooljet:
     image: 'tooljet/tooljet:latest'
-    container_name: tooljet-app
+    container_name: tooljet-app2
     restart: unless-stopped
     ports:
       - '8081:80'
     environment:
       SERVE_CLIENT: 'true'
-      TOOLJET_HOST: 'https://tools2.bforward.com.mx'
+      TOOLJET_HOST: 'https://tools4.bforward.com.mx'
       SECRET_KEY_BASE: '${SECRET_KEY_BASE}'
       LOCKBOX_MASTER_KEY: '${LOCKBOX_MASTER_KEY}'
       PG_HOST: 'postgres'
@@ -27,24 +27,24 @@ services:
       - tooljet-network
   postgres:
     image: postgres:13
-    container_name: tooljet-postgres
+    container_name: tooljet-postgres2
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${PG_DB:-tooljet}
       POSTGRES_USER: ${PG_USER:-tooljet}
       POSTGRES_PASSWORD: ${PG_PASS:?}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data2
     networks:
       - tooljet-network
 
   redis:
     image: redis:7
-    container_name: tooljet-redis
+    container_name: tooljet-redis2
     restart: unless-stopped
     command: redis-server --appendonly yes --maxmemory-policy noeviction
     volumes:
-      - redis_data:/data
+      - redis_data:/data2
     networks:
       - tooljet-network
 
