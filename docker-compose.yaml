@@ -1,6 +1,6 @@
 services:
   tooljet:
-    image: tooljet/tooljet:ee-lts-latest
+    image: tooljet/tooljet:latest
     container_name: tooljet-app
     restart: unless-stopped
     env_file:
@@ -10,6 +10,10 @@ services:
     environment:
       SERVE_CLIENT: "true"
       PORT: "80"
+      SSO_AZURE_CLIENT_ID: '<Application ID de ToolJet SSO>'
+      SSO_AZURE_CLIENT_SECRET: 'VOh8Q~c_IO.oWPJeN54Rv__LbkM0FYNBbAr-xaH6'
+      SSO_AZURE_TENANT_ID: 'ed4748db-77d2-447b-abcb-e59f1ef81f2a'
+      SSO_ACCEPT_INVITED_USERS_ONLY: 'false'
     command: npm run start:prod
     depends_on:
       - postgres
